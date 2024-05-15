@@ -5,22 +5,31 @@ def f(x):
 
 
 #Método da bisseção para o zero da função 
-def metodo_bissecao(f, a ,b, tol=1e-6, max_iter=100):
-    if f(a) * f(b) > 0:
-        print("Não é possível garantir a existência de uma raiz no intervalo fornecido.")
-        return None
-    else: 
-        for i in range(max_iter):
-            c = (a + b) / 2
-            if np.abs(f(c)) < tol:
-                return c
-            elif f(c) * f(a) < 0:
-                b = c 
-            else: 
-                a = c
-            
-        print("O método da bisseção atingiu o número máximo de iterações")
-        return None
+
+def f(x):
+    try:
+        return np.exp(x**2) - x
+    except OverflowError:
+        return np.inf  # Retornar um valor grande para indicar overflow
+    
+
+def bissecao(a, b, tol, max_iter):
+    n = 0
+    while n < max_iter:
+        x = (a + b) / 2
+        if abs(b - a) / 2 < tol or f(x) == 0:
+            return x
+        elif f(a) * f(x) < 0:
+            b = x
+        else:
+            a = x
+        n += 1
+    return None  # Não convergiu dentro do limite de iterações
+
+a = -2
+b = 2
+tolerancia = 1e-6
+max_iteracoes = 100
         
 #Método de newton-raphson parando em 4 iterações 
 def metodo_newton_rapshon(f, df, x0, tol=1e-6, max_iter=100):

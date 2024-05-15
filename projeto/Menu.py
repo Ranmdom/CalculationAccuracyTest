@@ -1,7 +1,7 @@
 import numpy as np
 
 from gauss_user import metodo_gauss
-from bissecao_user import f, metodo_bissecao, metodo_newton_rapshon, df
+from bissecao_user import f, bissecao, metodo_newton_rapshon, df
 from doisgrau_user import ajuste_curva
 from Gauss_jacobi import gauss_jacobi
 
@@ -21,10 +21,14 @@ def menu():
             #Intervalo inicial para o método da bissção 
             a = float(input("Digite o limite inferior do intervalo inicial: "))
             b = float(input("Digite o limite superior do intervalo inicial: "))
-            root_bissecao = metodo_bissecao(f, a, b)
-            if root_bissecao is not None:
-                print("Raiz encontrada pelo método da bisseção: ", root_bissecao)
-
+            tolerancia = 1e-6
+            max_iteracoes = 100
+            resultado = bissecao(a, b, tolerancia, max_iteracoes)
+            if resultado is not None:
+                print(f"Zero aproximado: {resultado:.6f}")
+            else:
+                print("Não foi possível encontrar um zero dentro das iterações.")
+                
         elif escolha == '2': 
             x0 = float(input("Digite o chute para o método de Newton-Raphson: "))
             root_newton_raphson = metodo_newton_rapshon(f, df, x0)
